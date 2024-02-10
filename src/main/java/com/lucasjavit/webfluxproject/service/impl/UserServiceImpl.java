@@ -15,7 +15,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public Mono<Users> save(Users user) {
         return userRepository.save(user);
@@ -34,14 +33,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Flux<ResponseEntity<Users>> findAll() {
         return userRepository.findAll()
-                .map(users -> ResponseEntity.ok(users))
+                .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @Override
     public Mono<ResponseEntity<Users>> findById(String id) {
         return userRepository.findById(id)
-                .map(users -> ResponseEntity.ok(users))
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    }
+
+    @Override
+    public Mono<ResponseEntity<Users>> findByName(String name) {
+        return userRepository.findByName(name)
+                .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 }

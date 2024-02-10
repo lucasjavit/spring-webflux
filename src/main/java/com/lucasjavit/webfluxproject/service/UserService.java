@@ -8,8 +8,14 @@ import reactor.core.publisher.Mono;
 public interface UserService {
 
     Mono<Users> save(Users user);
+
     Mono<Users> update(Users user);
+
     Mono<Void> remove(Users user);
-    Flux<ResponseEntity<Users>> findAll() ;
+
+    Flux<ResponseEntity<Users>> findAll();
+
     Mono<ResponseEntity<Users>> findById(String id);
+
+    Mono<ResponseEntity<Users>> findByName(String name);
 }
