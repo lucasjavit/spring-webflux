@@ -1,9 +1,11 @@
 package com.lucasjavit.webfluxproject.service.impl;
 
 import com.lucasjavit.webfluxproject.model.Users;
+import com.lucasjavit.webfluxproject.model.UsersDto;
 import com.lucasjavit.webfluxproject.repository.UserRepository;
 import com.lucasjavit.webfluxproject.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,9 +17,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
+
     @Override
-    public Mono<Users> save(Users user) {
-        return userRepository.save(user);
+    public Mono<ResponseEntity<Users>> save(UsersDto usersDto) {
+        Users users = modelMapper.map(usersDto, Users.class);
+
+        return userRepository.save(users)
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @Override

@@ -1,13 +1,14 @@
 package com.lucasjavit.webfluxproject.service;
 
 import com.lucasjavit.webfluxproject.model.Users;
+import com.lucasjavit.webfluxproject.model.UsersDto;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface UserService {
 
-    Mono<Users> save(Users user);
+    Mono<ResponseEntity<Users>> save(UsersDto user);
 
     Mono<Users> update(Users user);
 
